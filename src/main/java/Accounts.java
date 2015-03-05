@@ -9,16 +9,19 @@ public class Accounts {
     private final String bank;
     private final String cardNumber;
     private final YearMonth expiryDate;
+    private final int indexOfStartPosition;
+    private final int indexOfEndPosition;
 
-    public Accounts(String bank, String cardNumber, YearMonth expiryDate) {
+    public Accounts(String bank, String cardNumber, YearMonth expiryDate, int indexOfStartPosition, int indexOfEndPosition) {
         this.bank = bank;
         this.cardNumber = cardNumber;
         this.expiryDate = expiryDate;
+        validateMaskingParameters(indexOfEndPosition, indexOfStartPosition);
+        this.indexOfStartPosition = indexOfStartPosition;
+        this.indexOfEndPosition = indexOfEndPosition;
     }
 
-    public String getCardNumberForDisplay(int indexOfStartPosition, int indexOfEndPosition) {
-
-        validateMaskingParameters(indexOfEndPosition, indexOfStartPosition);
+    public String getCardNumberForDisplay() {
 
         StringBuilder results = new StringBuilder();
         for (int i = 0; i < getCardNumber().length(); i++) {

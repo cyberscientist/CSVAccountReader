@@ -1,13 +1,11 @@
 package main.java;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -20,7 +18,7 @@ public class CsvReader {
      * This Method will read each line of the file as String and add it to a List.
      * If the line is empty it will be ignored.
      * Every Line is trimmed.
-     * @param filePath
+     * @param filePath String
      * @return List
      * @throws IOException
      */
@@ -31,7 +29,7 @@ public class CsvReader {
         try (Stream<String> lines = Files.lines(path)) {
             lines.forEach( l -> {
                 l= l.trim();
-                if (l != null && ! l.isEmpty()) {
+                if (!l.isEmpty()) {
                     result.add(l);
                 }
             } );
