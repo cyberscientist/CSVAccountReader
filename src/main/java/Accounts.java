@@ -1,26 +1,48 @@
 package main.java;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
-import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by ali on 04/03/15.
  */
 public class Accounts {
-    private String bank;
-    private String cardNumber;
-    private YearMonth expiryDate;
+    private final String bank;
+    private final String cardNumber;
+    private final YearMonth expiryDate;
 
-    public Accounts (String bank, String cardNumber, YearMonth expiryDate) {
-        this.bank=bank;
-        this.cardNumber=cardNumber;
-        this.expiryDate=expiryDate;
+    public Accounts(String bank, String cardNumber, YearMonth expiryDate) {
+        this.bank = bank;
+        this.cardNumber = cardNumber;
+        this.expiryDate = expiryDate;
+    }
+
+    public String getCardNumberForDisplay(int indexOfStartPosition, int indexOfEndPosition) {
+
+        validateMaskingParameters(indexOfEndPosition, indexOfStartPosition);
+
+        StringBuilder results = new StringBuilder();
+        for (int i = 0; i < getCardNumber().length(); i++) {
+            if (getCardNumber().charAt(i) == '-') {
+                results.append('-');
+                continue;
+            }
+
+            if (i >= indexOfStartPosition && i <= indexOfEndPosition) {
+                results.append(getCardNumber().charAt(i));
+            } else {
+                results.append('X');
+            }
+        }
+
+        return results.toString();
+    }
+
+    private void validateMaskingParameters(int indexOfStartPosition, int indexOfEndPosition) {
+        if (indexOfEndPosition >= getCardNumber().length() ||
+                indexOfStartPosition > getCardNumber().length() ||
+                indexOfStartPosition < 0) {
+            throw new IllegalArgumentException("Not a Valid Set Of Number!");
+        }
     }
 
     public String getBank() {
@@ -31,33 +53,8 @@ public class Accounts {
         return cardNumber;
     }
 
-    public String getCardNumberForDisplay(int NumberDigitsToUnmask, int indexOfStartPosition) {
-
-        if (NumberDigitsToUnmask >= getCardNumber().length() ||
-                indexOfStartPosition > getCardNumber().length() ||
-                indexOfStartPosition < 0) {
-            throw new IllegalArgumentException("Not a Valid Set Of Number!");
-        }
-
-        StringBuilder results = new StringBuilder();
-        getCardNumber().chars().
-
-
-    }
 
     public YearMonth getExpiryDate() {
         return expiryDate;
-    }
-
-    @FunctionalInterface
-    public interface LoopWithIndexAndSizeConsumer<T> {
-        void accept(int i, int n);
-    }
-    public static <T> void forEach(Collection<T> collection,
-                                   LoopWithIndexAndSizeConsumer<T> consumer) {
-        int index = 0;
-        for (T object : collection){
-            consumer.accept( index++, collection.size());
-        }
     }
 }

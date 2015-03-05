@@ -10,7 +10,7 @@ import java.util.List;
  * Created by ali on 04/03/15.
  */
  public class CommaSeparatedStringToAccountsConverter implements Converter {
-    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yyyy");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yyyy");
 
     @Override
     public List<Accounts> convert(List<String> items) {
